@@ -4,8 +4,11 @@ class GalleryShooter extends Phaser.Scene {
     constructor() {
         super("GalleryShooter");
         this.my = {sprite: {}};  // Create an object to hold sprite bindings
-        this.JerboX = window.innerWidth / 2;
+        this.JerboX = window.innerWidth / 5.5;
         this.JerboY = window.innerHeight - 50;
+
+        this.my.sprite.bullet = [];
+        this.maxBullets = 10;
 
     }
 
@@ -18,50 +21,33 @@ class GalleryShooter extends Phaser.Scene {
         
     create(){
         let my = this.my;
-        my.sprite.Jerbo = this.add.sprite(this.JerboX, this.JerboY, "Jerbo");
-        my.sprite.Jerbo.scale = 2;
-        my.sprite.Jerbo.setOrigin(0.5, 1);
-        
-        my.sprite.bullet = this.add.sprite(this.JerboX, this.JerboY - my.sprite.Jerbo.displayHeight, "bullet");
-        my.sprite.bullet.setVisible(false);
 
+        this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.playerSpeed = 5;
 
-        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        my.sprite.Jerbo = new Player(this, this.JerboX, this.JerboY, "Jerbo", 0, this.left, this.right, this.shoot, this.playerSpeed);
+        my.sprite.Jerbo.scale = 2.5;
+        this.bulletSpeed = 10;
     }
 
     update(time, delta){
         let my = this.my;
+        let dt = delta / 16.66; 
+        my.sprite.Jerbo.update(time, delta);
 
-        if (this.keyA.isDown) {
-            my.sprite.Jerbo.x -= 5 * (delta / 16.66);  
-        }  
-        if (this.keyD.isDown) {
-            my.sprite.Jerbo.x += 5 * (delta / 16.66); 
-        }
-
-        // prevent monster from moving off screen
-        let halfWidth = my.sprite.Jerbo.displayWidth / 2;
-        if (my.sprite.Jerbo.x < halfWidth) {
-            my.sprite.Jerbo.x = halfWidth;
-        } else if (my.sprite.Jerbo.x > this.game.config.width - halfWidth) {
-            my.sprite.Jerbo.x = this.game.config.width - halfWidth;
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(this.spaceKey) && !my.sprite.bullet.visible) {
-            my.sprite.bullet.x = my.sprite.Jerbo.x;
-            my.sprite.bullet.y = my.sprite.Jerbo.y - my.sprite.Jerbo.displayHeight;
-            my.sprite.bullet.setVisible(true);
-        }
-
-        if (my.sprite.bullet.visible) {
-            my.sprite.bullet.y -= 10 * (delta / 16.66);
-            if (my.sprite.bullet.y < 0) {
-                my.sprite.bullet.setVisible(false);
+        if (Phaser.Input.Keyboard.JustDown(this.shoot)) {
+            if(my.sprite.bullet.length < this.maxBullets) {
+                my.sprite.bullet.push(this.add.sprite(my.sprite.Jerbo.x, my.sprite.Jerbo.y - (my.sprite.Jerbo.displayHeight/2), "bullet"));
             }
         }
+        
+        for(let bullet of my.sprite.bullet) {
+            bullet.y -= this.bulletSpeed * dt;
+        }
 
+        my.sprite.bullet = my.sprite.bullet.filter(bullet => bullet.y > -bullet.displayHeight);
     
 
     }
