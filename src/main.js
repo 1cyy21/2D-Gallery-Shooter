@@ -13,7 +13,7 @@ let config = {
     scale: {
         mode: Phaser.Scale.RESIZE,
     },
-    scene: [GalleryShooter]
+    scene: [StartScreen, GalleryShooter]
 }
 
 const game = new Phaser.Game(config);
