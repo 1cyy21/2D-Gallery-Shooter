@@ -19,8 +19,12 @@ let config = {
     render: {
         pixelArt: true  // prevent pixel art from getting blurred when scaled
     },
-    width: 800,
-    height: 600,
+    width: webkitURL ? window.innerWidth : 800,  // use full window width on mobile, fixed width on desktop
+    height: webkitURL ? window.innerHeight : 600, // use full window height on mobile, fixed height on desktop
+    scale: {
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
     scene: [MonsterMovement]
 }
 

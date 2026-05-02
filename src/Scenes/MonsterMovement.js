@@ -4,8 +4,8 @@ class MonsterMovement extends Phaser.Scene {
     constructor() {
         super("monsterMovementScene");
         this.my = {sprite: {}};  // Create an object to hold sprite bindings
-        this.monsterX = 400;
-        this.monsterY = 600;
+        this.monsterX = window.innerWidth / 2;
+        this.monsterY = window.innerHeight - 100;
 
     }
 
