@@ -10,6 +10,12 @@ class StartScreen extends Phaser.Scene {
     }
 
     create() {
+        document.fonts.load('16px "Press Start 2P"').then(() => {
+            this.buildUI();
+        });
+    }
+
+    buildUI(){
         let centerX = this.cameras.main.width / 2;
         let centerY = this.cameras.main.height / 2;
 
@@ -64,9 +70,5 @@ class StartScreen extends Phaser.Scene {
         startButton.on('pointerout', () => {
             startButton.setColor('#ffffff');
         });
-    }
-
-    update() {
-        // No updates needed
     }
 }
