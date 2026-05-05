@@ -1,5 +1,5 @@
 class Enemy extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame, score, enemyGroup, startingGroup, cycleTime) {
+    constructor(scene, x, y, texture, frame, score, enemyGroup, startingGroup, cycleTime, enemyType) {
         super(scene, x, y, texture, frame);
         
         this.score = score;
@@ -11,6 +11,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.shootInterval = this.cycleTime; 
         this.appearShootDelay = 1500;
         this.shootTimer = this.shootInterval - this.appearShootDelay;
+        this.enemyType = enemyType;
 
         this.setVisible(this.enemyGroup == this.currentGroup);
 

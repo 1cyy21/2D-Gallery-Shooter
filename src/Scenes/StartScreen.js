@@ -14,11 +14,18 @@ class StartScreen extends Phaser.Scene {
         let centerY = this.cameras.main.height / 2;
 
         // Title
-        this.add.text(centerX, centerY - 150, "Jerbo's Training", {
+        this.title = this.add.text(centerX, centerY - 150, "Jerbo's Training", {
             fontSize: '24px',
             fontFamily: '"Press Start 2P", monospace',
             color: '#ffffff'
         }).setOrigin(0.5);
+
+        this.titleTween = this.tweens.add({
+            targets: this.title,
+            y: '-=15',
+            yoyo: true,
+            repeat: -1
+        });
 
         // Controls
         this.add.text(centerX, centerY - 50, 'Controls:', {

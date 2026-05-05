@@ -24,6 +24,8 @@ class GalleryShooter extends Phaser.Scene {
         this.load.image("dead_anim_3", "tile_0020.png");
 
         // enemy 2 animations
+        this.load.image("enemy2_dead_1", "tile_0364.png");
+        this.load.image('enemy2_dead_2', 'tile_0365.png');
 
         // health animations
         this.load.image("heart_anim_1", "tile_0042.png");
@@ -82,6 +84,20 @@ class GalleryShooter extends Phaser.Scene {
             frameRate: 10,
             hideOnComplete: true
         });
+
+        // enemy 2 killed animation
+        this.anims.create({
+            key: "dead_enemy2",
+            frames: [
+                {key: "dead_anim_1"},
+                {key: "dead_anim_2"},
+                {key: "dead_anim_3"},
+                {key: "enemy2_dead_1"},
+                {key: "enemy2_dead_2"}
+            ],
+            frameRate: 10, 
+            hideOnComplete: true
+        });
         
         // heart lost animation
         this.anims.create({
@@ -100,21 +116,7 @@ class GalleryShooter extends Phaser.Scene {
 
         // enemy spawn locations 
         my.sprite.enemies = [];
-        const screenW = this.cameras.main.width;
-        const screenH = this.cameras.main.height;
-        const columnGap = screenW / this.enemiesPerRow;
-        const rowGap = (screenH/2) / (this.numRows + 1);
-
-        for(let row = 0; row < this.numRows; row++){
-            for (let col = 0; col < this.enemiesPerRow; col++){
-                let x = (col + 0.5) * columnGap;
-                let y =  rowGap * (row + 1);
-                let startingGroup = row % 2; 
-                let enemy = new Enemy(this, x, y, "enemy1", 0, 50, col % 2, startingGroup, 5000);
-                enemy.scale = 2.5;
-                my.sprite.enemies.push(enemy);
-            }
-        }
+        this.createEnemyWave(my.sprite.enemies, this.enemiesPerRow, this.numRows);
     }
 
     update(time, delta){
@@ -175,6 +177,7 @@ class GalleryShooter extends Phaser.Scene {
             }
         }
 
+        // if enemy reaches player
         for (let ei = my.sprite.enemies.length - 1; ei >= 0; ei--){
             let enemy = my.sprite.enemies[ei];
             if (enemy.visible && enemy.y >= my.sprite.Jerbo.y){
@@ -202,6 +205,24 @@ class GalleryShooter extends Phaser.Scene {
             this.lives--;
             if (this.lives <= 0){
                 this.scene.start("GameOver", { score : this.Score});
+            }
+        }
+    }
+
+    createEnemyWave(enemyArray, enemiesPerRow, numRows){
+        const screenW = this.cameras.main.width;
+        const screenH = this.cameras.main.height;
+        const columnGap = screenW / this.enemiesPerRow;
+        const rowGap = (screenH/2) / (this.numRows + 1);
+
+        for(let row = 0; row < this.numRows; row++){
+            for (let col = 0; col < this.enemiesPerRow; col++){
+                let x = (col + 0.5) * columnGap;
+                let y =  rowGap * (row + 1);
+                let startingGroup = row % 2; 
+                let enemy = new Enemy(this, x, y, "enemy1", 0, 50, col % 2, startingGroup, 5000, 1);
+                enemy.scale = 2.5;
+                enemyArray.push(enemy);
             }
         }
     }

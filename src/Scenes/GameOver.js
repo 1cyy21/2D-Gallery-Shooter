@@ -18,25 +18,25 @@ class GameOver extends Phaser.Scene {
 
         this.add.text(centerX, centerY - 120, "Game Over", {
             fontSize: '28px',
-            fontFamily: '"Press Start 2P", monospace',
+            fontFamily: '"Press Start 2P"',
             color: '#ff0000'
         }).setOrigin(0.5);
 
         this.add.text(centerX, centerY - 60, `Score: ${score}`, {
             fontSize: '20px',
-            fontFamily: '"Press Start 2P", monospace',
+            fontFamily: '"Press Start 2P"',
             color: '#ffffff'
         }).setOrigin(0.5);
 
         this.add.text(centerX, centerY - 20, `Highscore: ${highscore}`, {
             fontSize: '20px',
-            fontFamily: '"Press Start 2P", monospace',
+            fontFamily: '"Press Start 2P"',
             color: '#ffffff'
         }).setOrigin(0.5);
 
         let restartButton = this.add.text(centerX, centerY + 60, 'Restart', {
             fontSize: '20px',
-            fontFamily: '"Press Start 2P", monospace',
+            fontFamily: '"Press Start 2P"',
             color: '#ffffff',
             backgroundColor: '#000000',
             padding: { x: 10, y: 8 }
