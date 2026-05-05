@@ -7,11 +7,19 @@ class GameOver extends Phaser.Scene {
 
     create(data) {
         let score = data.score || 0;
+        let wave = data.wave || 1; 
         let highscore = parseInt(localStorage.getItem("galleryShooterHighscore")) || 0;
         if (score > highscore) {
             highscore = score;
             localStorage.setItem("galleryShooterHighscore", highscore);
         }
+        
+        let bestWave = parseInt(localStorage.getItem("galleryShooterBestWave")) || 0; 
+        if (wave > bestWave){
+            bestWave = wave;
+            localStorage.setItem("galleryShooterBestWave", bestWave);
+        }
+
 
         let centerX = this.cameras.main.width / 2;
         let centerY = this.cameras.main.height / 2;
@@ -30,6 +38,12 @@ class GameOver extends Phaser.Scene {
 
         this.add.text(centerX, centerY - 20, `Highscore: ${highscore}`, {
             fontSize: '20px',
+            fontFamily: '"Press Start 2P"',
+            color: '#ffffff'
+        }).setOrigin(0.5);
+
+        this.add.text(centerX, centerY + 10, `Best Wave: ${bestWave}`, {
+            fontSize: '16px',
             fontFamily: '"Press Start 2P"',
             color: '#ffffff'
         }).setOrigin(0.5);
