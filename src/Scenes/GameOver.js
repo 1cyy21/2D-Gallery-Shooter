@@ -56,6 +56,13 @@ class GameOver extends Phaser.Scene {
             padding: { x: 10, y: 8 }
         }).setOrigin(0.5).setInteractive();
 
+        let homeButton = this.add.text(centerX, centerY + 90, 'Return to Title', {
+            fontSize: '20px',
+            fontFamily: '"Press Start 2P"',
+            color: '#ffffff',
+            padding: {x: 10, y: 8}
+        }).setOrigin(0.5).setInteractive();
+
         restartButton.on('pointerdown', () => {
             this.scene.start('GalleryShooter');
         });
@@ -67,5 +74,17 @@ class GameOver extends Phaser.Scene {
         restartButton.on('pointerout', () => {
             restartButton.setStyle({ fill: '#ffffff' });
         });
+
+        homeButton.on('pointerdown', () => {
+            this.scene.start('StartScreen');
+        });
+
+        homeButton.on('pointerover', () => {
+            homeButton.setStyle({ fill: '#ffff00'});
+        })
+
+        homeButton.on('pointerout', () => {
+            homeButton.setStyle({ fill: '#ffffff'});
+        })
     }
 }
